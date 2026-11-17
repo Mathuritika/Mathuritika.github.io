@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data and Software Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: soft pastel canvas with floating colour blobs, glass cards that lift on hover, each project keyed to its own pastel. */
+:root {
+  --bg: #faf8ff;
+  --surface: rgba(255,255,255,.72);
+  --ink: #2b2542;
+  --muted: #625b7e;
+  --line: #e4defa;
+  --accent: #5a3fc8;
+  --lav: #d9ccff; --mint: #c5f2de; --peach: #ffd9c4; --sky: #c6e3ff; --pink: #ffcfe4;
+  --display: "Bricolage Grotesque", "Segoe UI", sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --shadow: 0 10px 30px rgba(90,63,200,.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16132a; --surface: rgba(38,32,68,.7); --ink: #efeafd; --muted: #aaa3c9; --line: #3a3265; --accent: #b9a6ff;
+    --lav: #4a3d8f; --mint: #2f6a58; --peach: #8a5a45; --sky: #35608f; --pink: #86476a; --shadow: 0 10px 30px rgba(0,0,0,.35); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16132a; --surface: rgba(38,32,68,.7); --ink: #efeafd; --muted: #aaa3c9; --line: #3a3265; --accent: #b9a6ff;
+  --lav: #4a3d8f; --mint: #2f6a58; --peach: #8a5a45; --sky: #35608f; --pink: #86476a; --shadow: 0 10px 30px rgba(0,0,0,.35); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.6 var(--body); overflow-x: hidden; position: relative; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+/* background blobs */
+.blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.blob { position: absolute; width: 46vmax; height: 46vmax; border-radius: 50%; filter: blur(70px); opacity: .65; animation: drift 22s ease-in-out infinite alternate; }
+.b1 { background: var(--lav); top: -14vmax; left: -10vmax; }
+.b2 { background: var(--pink); top: 10vmax; right: -16vmax; animation-duration: 28s; animation-delay: -6s; }
+.b3 { background: var(--mint); bottom: -18vmax; left: 10vmax; animation-duration: 25s; animation-delay: -12s; }
+.b4 { background: var(--sky); bottom: 6vmax; right: -8vmax; width: 32vmax; height: 32vmax; animation-duration: 30s; }
+@keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(6vmax,4vmax) scale(1.12); } }
+.glow { position: fixed; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, var(--lav), transparent 65%); opacity: .55; pointer-events: none; z-index: 0; transform: translate(-50%,-50%); left: -400px; top: -400px; }
+.progress { position: fixed; top: 0; left: 0; height: 4px; width: 0; background: linear-gradient(90deg, var(--lav), var(--pink), var(--peach), var(--mint), var(--sky)); z-index: 20; }
+
+header.bar { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px); background: color-mix(in srgb, var(--bg) 70%, transparent); border-bottom: 1px solid var(--line); }
+header.bar .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; padding-top: 12px; padding-bottom: 12px; }
+.brand { font: 700 19px var(--display); }
+nav { display: flex; flex-wrap: wrap; gap: 6px; font: 500 14px var(--mono); }
+nav a { color: var(--muted); text-decoration: none; padding: 5px 12px; border-radius: 999px; transition: background .25s, color .25s, transform .25s; }
+nav a:hover { background: var(--lav); color: var(--ink); transform: translateY(-2px); }
+
+.hero { padding: 72px 0 48px; }
+.tag { font: 500 14px var(--mono); color: var(--ink); background: var(--mint); display: inline-block; padding: 6px 14px; border-radius: 999px; animation: rise .8s both; }
+h1 { font: 700 clamp(38px, 7vw, 68px)/1.06 var(--display); margin: 20px 0 18px; text-wrap: balance; letter-spacing: -0.02em; animation: rise .8s .1s both; }
+h1 .word { background: linear-gradient(90deg, #8a6df0, #ee7fb4, #f0a373); -webkit-background-clip: text; background-clip: text; color: transparent; background-size: 200% auto; animation: shine 6s linear infinite; }
+h1 .caret { display: inline-block; width: 3px; height: .85em; background: var(--accent); margin-left: 4px; vertical-align: -0.05em; animation: blink 1s steps(1) infinite; }
+@keyframes shine { to { background-position: 200% center; } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.hero p { max-width: 62ch; font-size: 19px; color: var(--muted); margin: 0 0 28px; animation: rise .8s .2s both; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; animation: rise .8s .3s both; }
+.btn { display: inline-block; padding: 12px 22px; background: var(--surface); border: 1.5px solid var(--line); color: var(--ink); text-decoration: none; font: 500 15px var(--body); border-radius: 999px; transition: transform .25s, box-shadow .25s, background .25s; }
+.btn:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.btn.primary { background: linear-gradient(135deg, var(--lav), var(--pink)); border-color: transparent; }
+
+section { padding: 44px 0; }
+h2 { font: 700 30px var(--display); margin: 0 0 26px; display: flex; gap: 12px; align-items: center; }
+h2 span { font: 500 13px var(--mono); background: var(--peach); color: var(--ink); padding: 3px 10px; border-radius: 999px; }
+.projects { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.proj { --c: var(--lav); background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--line); border-top: 6px solid var(--c); border-radius: 18px; padding: 22px; display: block; box-shadow: var(--shadow); transition: transform .25s ease, box-shadow .25s ease; transform-style: preserve-3d; will-change: transform; }
+.proj:nth-child(2) { --c: var(--mint); } .proj:nth-child(3) { --c: var(--peach); } .proj:nth-child(4) { --c: var(--sky); }
+.proj:hover { box-shadow: 0 18px 40px rgba(90,63,200,.18); }
+.proj .n { display: inline-block; font: 500 13px var(--mono); background: var(--c); color: var(--ink); padding: 2px 10px; border-radius: 999px; margin-bottom: 10px; }
+.proj h3 { font: 700 21px var(--display); margin: 0; }
+.proj p { margin: 8px 0 14px; color: var(--muted); }
+.proj .role { font: 500 13px var(--mono); color: var(--accent); margin-top: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.chips li { font: 400 13px var(--mono); background: color-mix(in srgb, var(--c) 55%, transparent); padding: 3px 10px; border-radius: 999px; transition: transform .2s; }
+.chips li:hover { transform: translateY(-2px) scale(1.06); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+.card { background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px; box-shadow: var(--shadow); transition: transform .25s, box-shadow .25s; }
+.card:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(90,63,200,.16); }
+.card:nth-child(1) { border-top: 6px solid var(--lav); } .card:nth-child(2) { border-top: 6px solid var(--mint); }
+.card:nth-child(3) { border-top: 6px solid var(--peach); } .card:nth-child(4) { border-top: 6px solid var(--pink); }
+.card h3 { font: 700 17px var(--display); margin: 0 0 10px; }
+.card ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.timeline { background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--line); border-left: 6px solid var(--pink); border-radius: 18px; padding: 22px 24px; box-shadow: var(--shadow); transition: transform .25s; }
+.timeline:hover { transform: translateX(6px); }
+.timeline h3 { font: 700 21px var(--display); margin: 0; }
+.timeline .meta { font: 500 13px var(--mono); color: var(--accent); margin: 4px 0 12px; }
+.timeline ul { margin: 0; padding-left: 18px; color: var(--muted); }
+footer { padding: 32px 0 56px; color: var(--muted); font: 400 14px var(--mono); }
+.ph { background: var(--sky); padding: 0 6px; border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .blob, h1 .word, h1 .caret, .tag, h1, .hero p, .cta { animation: none; }
+  .proj, .card, .timeline, .btn, nav a { transition: none; }
+}
+
+.hero-grid { display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: center; }
+.photo { position: relative; justify-self: center; width: 300px; animation: rise .8s .2s both; }
+.photo::before { content: ""; position: absolute; inset: -14px; border-radius: 160px 160px 28px 28px; background: conic-gradient(from 200deg, var(--lav), var(--pink), var(--peach), var(--mint), var(--sky), var(--lav)); filter: blur(2px); animation: spin 14s linear infinite; }
+.photo img { position: relative; display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 20%; border-radius: 150px 150px 20px 20px; border: 6px solid var(--bg); }
+@keyframes spin { to { filter: blur(2px) hue-rotate(360deg); } }
+@media (max-width: 760px) { .hero-grid { grid-template-columns: 1fr; } .photo { order: -1; width: 220px; } }
+@media (prefers-reduced-motion: reduce) { .photo, .photo::before { animation: none; } }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div></div>
+<div class="glow" id="glow" aria-hidden="true"></div>
+<header class="bar">
+  <div class="wrap">
+    <div class="brand">Ritika</div>
+    <nav aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero hero-grid">
+  <div class="hero-text">
+    <span class="tag">B.Tech CSE, Big Data · Class of 2027</span>
+    <h1>I build <span class="word" id="word">data pipelines</span><span class="caret" aria-hidden="true"></span> and things that think.</h1>
+    <p>Computer Science Engineering student specialising in Big Data. I have led a module on a 25-person enterprise exam platform, built streaming systems, and I am looking for software and data roles.</p>
+    <div class="cta">
+      <a class="btn primary" href="#projects">See my projects</a>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+  </div>
+  <div class="photo"><img src="photo.jpg" alt="Portrait photo" width="300" height="375"></div>
+</div>
+
+  <section id="projects">
+    <h2><span>01</span>Projects</h2>
+    <div class="projects">
+
+
+      <article class="proj">
+        <div class="n">01</div>
+        <div class="body">
+          <h3>Real-time E-commerce Recommendation Pipeline</h3>
+          <p>Streams user activity through Kafka, processes it with Spark Structured Streaming, stores it in MongoDB and serves recommendations through a FastAPI backend with a Streamlit dashboard. Everything runs in Docker.</p>
+          <ul class="chips"><li>Kafka</li><li>Spark Streaming</li><li>MongoDB</li><li>FastAPI</li><li>Streamlit</li><li>Docker</li></ul>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="n">02</div>
+        <div class="body">
+          <h3>Research Agent</h3>
+          <div class="role">Major Project · team of three</div>
+          <p>An Obsidian plugin that synthesises literature reviews. It connects to Zotero, finds the closest papers, summarises them, updates the library and generates a review template. The agent talks to the plugin over MCP, so it works with ChatGPT, Gemini or Claude. The interface follows a LiquidText-style PDF and mind-map workflow.</p>
+          <ul class="chips"><li>Obsidian plugin</li><li>MCP</li><li>Zotero</li><li>AI agents</li><li>Mind maps</li></ul>
+        </div>
+      </article>
+
+
+
+      <article class="proj">
+        <div class="n">03</div>
+        <div class="body">
+          <h3>Cancer Misinformation Detection</h3>
+          <div class="role">Team project · I handled data preprocessing and chunking</div>
+          <p>Checks cancer-related claims using retrieval-augmented generation over a fact database, a fine-tuned BioBERT classifier, and LIME to explain each prediction. I prepared and chunked the fact database that the retrieval step searches.</p>
+          <ul class="chips"><li>RAG</li><li>ChromaDB</li><li>BioBERT</li><li>LIME</li><li>Streamlit</li></ul>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="experience">
+    <h2><span>02</span>Experience</h2>
+    <div class="timeline">
+      <h3>Intern, Xebia</h3>
+      <div class="meta">Enterprise exam platform · 25-member team</div>
+      <ul>
+        <li>Team lead for the result generation module.</li>
+        <li>Worked on reports and monitoring, including live proctoring and results.</li>
+        <li>Built for a multi-tenant platform, so each organisation's data stays separate.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2><span>03</span>Skills</h2>
+    <div class="grid2">
+      <div class="card"><h3>Big Data and ML</h3><ul><li>Kafka, Spark Structured Streaming</li><li>MongoDB, SQLite</li><li>RAG, BioBERT, LIME, ChromaDB</li></ul></div>
+      <div class="card"><h3>Backend</h3><ul><li>Python, FastAPI</li><li>SQL</li></ul></div>
+      <div class="card"><h3>Tools</h3><ul><li>Docker</li><li>Vercel, Railway, Render</li><li>Git</li></ul></div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2><span>04</span>Education</h2>
+    <div class="timeline">
+      <h3>B.Tech, Computer Science Engineering</h3>
+      <div class="meta">Specialisation in Big Data · Graduating 2027</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2><span>05</span>Contact</h2>
+    <p>Open to software engineering, data engineering and analytics roles.</p>
+    <div class="cta">
+      <a class="btn primary" href="tel:+919829030397">+91 98290 30397</a>
+      <a class="btn" href="mailto:mathurritikajpr2@gmail.com">mathurritikajpr2@gmail.com</a>
+      <a class="btn" href="https://github.com/Mathuritika">GitHub</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Built in 2026.</div>
+</footer>
+<script>
+(function(){
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var bar = document.getElementById("progress");
+  function onScroll(){ var h = document.documentElement.scrollHeight - window.innerHeight; bar.style.width = (h > 0 ? window.scrollY / h * 100 : 0) + "%"; }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+  if (reduce) return;
+  var glow = document.getElementById("glow");
+  window.addEventListener("pointermove", function(e){ glow.style.left = e.clientX + "px"; glow.style.top = e.clientY + "px"; });
+  document.querySelectorAll(".proj").forEach(function(el){
+    el.addEventListener("pointermove", function(e){
+      var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      el.style.transform = "perspective(900px) rotateX(" + (-y*6) + "deg) rotateY(" + (x*6) + "deg) translateY(-4px)";
+    });
+    el.addEventListener("pointerleave", function(){ el.style.transform = ""; });
+  });
+  var words = ["data pipelines","AI tools","streaming systems"], wi = 0, ci = words[0].length, del = true, w = document.getElementById("word");
+  function tick(){
+    var cur = words[wi];
+    if (del) { ci--; if (ci <= 0) { del = false; wi = (wi + 1) % words.length; } }
+    else { ci++; if (ci >= words[wi].length) { del = true; w.textContent = words[wi]; return setTimeout(tick, 1800); } }
+    w.textContent = words[wi].slice(0, Math.max(ci,0)) || "\u00a0";
+    setTimeout(tick, del ? 40 : 80);
+  }
+  setTimeout(tick, 1800);
+})();
+</script>
+</body>
+</html>
